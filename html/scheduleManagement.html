@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule Management</title>
+</head>
+<body>
+    <form action="" method="post">
+        <header><h1>Schedule Management</h1></header><hr>
+        <table>
+            <tr>
+                <td><label for="patient">Select Patient:</label></td>
+                <td><select id="patient" name="patient" required>
+                    <option value="">Patient List</option>
+                    <option value="1">John Smith</option>
+                    <option value="2">Sarah Johnson</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td><label for="diagnosis">Diagnosis:</label></td>
+                <td><textarea name="diagnosis" id="diagnosis" rows="3" required></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="treatment">Treatment:</label></td>
+                <td><textarea name="treatment" id="treatment" rows="3" required></textarea></td>
+            </tr>
+            <tr>
+                <td><label for="date">Date:</label></td>
+                <td><input type="date" name="date" id="date" required></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" name="doctorID" value="1"></td>
+            </tr>
+            <tr>
+                <td><button type="submit">Update Record</button></td>
+            </tr>
+        </table>
+    </form>
+    
+</body>
+</html>
