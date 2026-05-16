@@ -5,6 +5,7 @@ session_start();
 $error = "";
 
     if ($_SERVER["REQUEST_METHOD"] == 'POST') {
+        // Get form data
         $email = $_POST['email'];
         $password = $_POST['password'];
         $stmt = $pdo->prepare("SELECT * FROM patients WHERE email = ?");
