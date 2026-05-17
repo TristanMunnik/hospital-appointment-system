@@ -1,3 +1,67 @@
+<?php 
+    require_once "../php/config.php";
+    session_start();
+
+    $success = "";
+    $error = "";
+
+    if(!isset($_SESSION['user_id'])){
+        header('Location: login.php');
+        exit();
+    }
+    if($_SESSION['role'] != 'admin'){
+        header('Location: login.php');
+        exit();
+    }
+
+    if($_POST['form_type'] == 'add_user') {
+    try {
+        $role = $_POST['roleSelect'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        $specialisation = $_POST['specialisation'];
+        $dateOfBirth = $_POST['dateOfBirth'];
+        $phoneNumber = $_POST['phoneNumber'];
+
+        if($role == 'patient') {
+            $stmt = $pdo->prepare("INSERT INTO patients 
+            (full_name, email, `password`, phone, dateOfBirth) 
+            VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$name, $email, $password, $phoneNumber, $dateOfBirth]);
+        } elseif ($role == 'doctor') {
+            $stmt = $pdo->prepare("INSERT INTO doctor 
+            (full_name, email, `password`, specialisation) 
+            VALUES (?,?,?,?)");
+            $stmt->execute([$name, $email, $password, $specialisation]);
+        } elseif ($role == 'admin') {
+            $stmt = $pdo->prepare("INSERT INTO admin 
+            (full_name, email, `password`) 
+            VALUES (?,?,?)");
+            $stmt->execute([$name, $email, $password]);
+        }
+        $success = "User has been added successfully";
+
+    } catch(PDOException $e) {
+        $error = "Failed to add user. Email may already exist.";
+    }
+
+    } else if ($_POST['form_type'] == 'manage_appointment') {
+        try {
+            $appointmentID = $_POST['appointmentID'];
+            $status = $_POST['status'];
+
+            $stmt = $pdo->prepare("UPDATE appointment SET status = ? WHERE appointmentID = ?");
+            $stmt->execute([$status, $appointmentID]);
+            $success = "Updated appointment successfully";
+
+        } catch(PDOException $e) {
+            $error = "Failed to update appointment.";
+        }
+    }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +74,9 @@
     <!-- Form to add a user to the system -->
     <form method="POST" action="">
         <header><h1>Admin</h1></header><hr>
-        
+        <?php if($success != "" && isset($_POST['form_type']) && $_POST['form_type'] == 'add_user') echo "<p style='color:green'>$success</p>"; ?>
+        <?php if($error != "" && isset($_POST['form_type']) && $_POST['form_type'] == 'add_user') echo "<p style='color:red'>$error</p>"; ?>
+
         <table>
             <tr>
                 <td><label for="roleSelect">Role select:</label></td>
@@ -51,13 +117,15 @@
                 <td></td>
             </tr>
         </table>
-
+        <input type="hidden" name="form_type" value="add_user">
     </form><hr>
 
     <!-- Form to manage Appointment status -->
     <form method="POST" action="">
         <header><h2>Manage Appointments</h2></header>
-        
+
+        <?php if($success != "" && isset($_POST['form_type']) && $_POST['form_type'] == 'manage_appointment') echo "<p style='color:green'>$success</p>"; ?>
+        <?php if($error != "" && isset($_POST['form_type']) && $_POST['form_type'] == 'manage_appointment') echo "<p style='color:red'>$error</p>"; ?>
         <table>
             <tr>
                 <td><label for="appointmentID">Select Appointment:</label></td>
@@ -85,7 +153,7 @@
                 <td><button type="submit">Update Appointment</button></td>
             </tr>
         </table>
-
+        <input type="hidden" name="form_type" value="manage_appointment">
     </form>
     
 </body>

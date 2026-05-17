@@ -35,7 +35,7 @@ $error = "";
         
         if($user) {
             if(password_verify($password, $user['password'])) {
-                $_SESSION['userID'] = $user[$idColumn];
+                $_SESSION['user_id'] = $user[$idColumn];
                 $_SESSION['user_name'] = $user['full_name'];
                 $_SESSION['role'] = $role;
 

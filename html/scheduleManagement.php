@@ -1,3 +1,42 @@
+<?php 
+    require_once "../php/config.php";
+
+    session_start();
+
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit();
+    }
+
+    if($_SESSION['role'] != 'doctor'){
+        header('Location: login.php');
+        exit();
+    }
+
+    $success = "";
+    $error = "";
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    try {
+        $patientID = $_POST['patientID'];
+        $doctorID = $_SESSION['user_id'];
+        $diagnosis = $_POST['diagnosis'];
+        $treatment = $_POST['treatment'];
+        $date = $_POST['date'];
+
+        $stmt = $pdo->prepare("INSERT INTO medical_record 
+        (patientID, doctorID, diagnosis, treatment, `date`) 
+        VALUES (?,?,?,?,?)");
+        $stmt->execute([$patientID, $doctorID, $diagnosis, $treatment, $date]);
+        $success = "Medical record updated successfully";
+
+    } catch(PDOException $e) {
+        $error = "Failed to update medical record. Please try again.";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,9 +67,6 @@
             <tr>
                 <td><label for="date">Date:</label></td>
                 <td><input type="date" name="date" id="date" required></td>
-            </tr>
-            <tr>
-                <td><input type="hidden" name="doctorID" value="1"></td>
             </tr>
             <tr>
                 <td><button type="submit">Update Record</button></td>

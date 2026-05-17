@@ -17,18 +17,23 @@
     $error = "";
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Get form data
-        $patientID = $_SESSION['userID'];
+    try {
+        $patientID = $_SESSION['user_id'];
         $doctorID = $_POST['doctorID'];
         $date = $_POST['date'];
         $time = $_POST['time'];
         $status = $_POST['status'];
 
-        $stmt = $pdo->prepare("INSERT INTO appointment (patientID, doctorID, `date`, time, status) VALUES (?,?,?,?,?)");
+        $stmt = $pdo->prepare("INSERT INTO appointment 
+        (patientID, doctorID, `date`, time, status) 
+        VALUES (?,?,?,?,?)");
         $stmt->execute([$patientID, $doctorID, $date, $time, $status]);
-        $success = "Appointment has been booked successfully";
-        
+        $success = "Appointment booked successfully";
+
+    } catch(PDOException $e) {
+        $error = "Failed to book appointment. Please try again.";
     }
+}
 ?>
 
 <!DOCTYPE html>
