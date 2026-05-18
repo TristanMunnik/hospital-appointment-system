@@ -1,4 +1,6 @@
 <?php 
+
+    require_once "../php/config.php";
     session_start();
 
     if(!isset($_SESSION['user_id'])) {
@@ -10,6 +12,12 @@
         header('Location: login.php');
         exit();
     }
+
+    $stmt = $pdo->prepare("SELECT * FROM appointment WHERE patientID = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $appointments = $stmt->fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -37,8 +45,29 @@
     <hr>
 
     <main>
-        <h2>Your Upcoming Appointments</h2>
-        <p>Appointment list will appear here...</p>
+        <h2>Your Upcoming Appointments:</h2>
+        <?php if(count($appointments) > 0): ?>
+            <table border="1">
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+                <?php foreach($appointments as $appointment): ?>
+                <tr>
+                    <td><?php echo $appointment['appointmentID'] ?></td>
+                    <td><?php echo $appointment['doctorID'] ?></td>
+                    <td><?php echo $appointment['date'] ?></td>
+                    <td><?php echo $appointment['time'] ?></td>
+                    <td><?php echo $appointment['status'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>You Have no appointments yet</p>
+        <?php endif; ?>
     </main>
 
 </body>

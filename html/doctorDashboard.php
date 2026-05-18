@@ -1,4 +1,5 @@
 <?php 
+    require_once "../php/config.php";
     session_start();
 
     if(!isset($_SESSION['user_id'])) {
@@ -10,6 +11,11 @@
         header('Location: login.php');
         exit();
     }
+
+    $stmt = $pdo->prepare("SELECT * FROM appointment WHERE doctorID = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $appointments = $stmt->fetchAll();
+    
 ?>
 
 <!DOCTYPE html>
@@ -37,6 +43,28 @@
     <main>
     <h2>Doctor Panel</h2>
     <p>Welcome to the doctor panel. Use the navigation above to manage the system.</p>
+    <?php if(count($appointments) > 0): ?>
+            <table border="1">
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                </tr>
+                <?php foreach($appointments as $appointment): ?>
+                <tr>
+                    <td><?php echo $appointment['appointmentID'] ?></td>
+                    <td><?php echo $appointment['patientID'] ?></td>
+                    <td><?php echo $appointment['date'] ?></td>
+                    <td><?php echo $appointment['time'] ?></td>
+                    <td><?php echo $appointment['status'] ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>You Have no appointments yet</p>
+        <?php endif; ?>
     </main>
 
 </body>
