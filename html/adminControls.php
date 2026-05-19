@@ -19,6 +19,8 @@
         $role = $_POST['roleSelect'];
         $name = $_POST['name'];
         $email = $_POST['email'];
+
+        // password hashing
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
         $specialisation = $_POST['specialisation'];
         $dateOfBirth = $_POST['dateOfBirth'];

@@ -42,7 +42,7 @@
 
     <main>
     <h2>Doctor Panel</h2>
-    <p>Welcome to the doctor panel. Use the navigation above to manage the system.</p>
+    <p>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></p>
     <?php if(count($appointments) > 0): ?>
             <table border="1">
                 <tr>
@@ -54,11 +54,11 @@
                 </tr>
                 <?php foreach($appointments as $appointment): ?>
                 <tr>
-                    <td><?php echo $appointment['appointmentID'] ?></td>
-                    <td><?php echo $appointment['patientID'] ?></td>
-                    <td><?php echo $appointment['date'] ?></td>
-                    <td><?php echo $appointment['time'] ?></td>
-                    <td><?php echo $appointment['status'] ?></td>
+                    <td><?php echo htmlspecialchars($appointment['appointmentID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['patientID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['date']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['time']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['status']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </table>

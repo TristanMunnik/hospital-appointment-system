@@ -57,11 +57,11 @@
                 </tr>
                 <?php foreach($appointments as $appointment): ?>
                 <tr>
-                    <td><?php echo $appointment['appointmentID'] ?></td>
-                    <td><?php echo $appointment['doctorID'] ?></td>
-                    <td><?php echo $appointment['date'] ?></td>
-                    <td><?php echo $appointment['time'] ?></td>
-                    <td><?php echo $appointment['status'] ?></td>
+                    <td><?php echo htmlspecialchars($appointment['appointmentID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['doctorID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['date']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['time']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['status']) ?></td>
                 </tr>
                 <?php endforeach; ?>
             </table>

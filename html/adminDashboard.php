@@ -44,7 +44,7 @@
     <header>
         <h1>Admin Dashboard</h1>
         <!-- Display Admin name from session -->
-        <p>Welcome, <?php echo $_SESSION['user_name']; ?></p>
+        <p>Welcome, <?php echo htmlspecialchars($_SESSION['user_name']); ?></p>
         <a href="logout.php">Logout</a>
     </header>
     <hr>
@@ -74,13 +74,14 @@
                 </tr>
                 <?php foreach($appointments as $appointment): ?>
                 <tr>
-                    <td><?php echo $appointment['appointmentID'] ?></td>
-                    <td><?php echo $appointment['patientID'] ?></td>
-                    <td><?php echo $appointment['doctorID'] ?></td>
-                    <td><?php echo $appointment['date'] ?></td>
-                    <td><?php echo $appointment['time'] ?></td>
-                    <td><?php echo $appointment['status'] ?></td>
-                    <td><a href="adminDashboard.php?appointmentID=<?php echo $appointment['appointmentID']; ?>"> 
+                    <td><?php echo htmlspecialchars($appointment['appointmentID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['patientID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['doctorID']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['date'] )?></td>
+                    <td><?php echo htmlspecialchars($appointment['time']) ?></td>
+                    <td><?php echo htmlspecialchars($appointment['status']) ?></td>
+                    <td>
+                        <a href="adminDashboard.php?appointmentID=<?php echo htmlspecialchars($appointment['appointmentID']); ?>" 
                         onclick="return confirm('Are you sure you want to delete this appointment?')">
                         Delete</a>
                     </td>
