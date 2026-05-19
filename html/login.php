@@ -65,9 +65,10 @@ $error = "";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="../js/validation.js"></script>
 </head>
 <body>
-    <form method="post" action="">
+    <form method="post" action="" onsubmit="return validateLogin()">
         <header><h1>Login</h1></header><hr>
 
         <!-- displaying error login message -->
@@ -76,7 +77,7 @@ $error = "";
         <table>
             <tr>
                 <td><label for="loginEmail">Email:</label></td>
-                <td><input type="email" id="loginEmail" name="email" required></td>
+                <td><input type="email" id="email" name="email" required></td>
             </tr>
             <tr>
                 <td><label for="password">Password:</label></td>

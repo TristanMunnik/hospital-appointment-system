@@ -42,9 +42,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Appointments Booking</title>
+    <script src="../js/validation.js"></script>
 </head>
 <body>
-    <form method="post" action="">
+    <form method="post" action="" onsubmit="return validateAppointment()">
         <header><h1>Book an appointment</h1></header><hr>
 
         <?php if ($success != "") echo "<p style='color:green'>$success</p>"; ?>
@@ -61,7 +62,7 @@
             </tr>
             <tr>
                 <td><label for="doctorID">Doctor:</label></td>
-                <td><select name="doctorID" required>
+                <td><select id="doctorID" name="doctorID" required>
                     <option value="">Select a Doctor</option>
                     <option value="1">Dr James Wilson - Cardiologist</option>
                     <option value="2">Dr Emily Brown - General Practitioner</option>
@@ -69,11 +70,11 @@
             </tr>
             <tr>
                 <td><label for="date">Date:</label></td>
-                <td><input type="date" name="date" required></td>
+                <td><input type="date" id="date" name="date" required></td>
             </tr>
             <tr>
                 <td><label for="time">Time:</label></td>
-                <td><input type="time" name="time" required></td>
+                <td><input type="time" id="time" name="time" required></td>
             </tr>
             <tr>
                 <td><label for="phoneNumber">Phone number:</label></td>
@@ -83,6 +84,8 @@
                 <td><button type="submit" id="submitBtn">Book</button></td>
             </tr>
         </table>
+
+        <div id="appointmentListDisplay"></div>
         <input type="hidden" name="status" value="requested">
     </form>
 </body>
