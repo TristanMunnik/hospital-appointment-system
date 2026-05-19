@@ -17,6 +17,10 @@
     $stmt->execute([$_SESSION['user_id']]);
     $appointments = $stmt->fetchAll();
 
+    $stmt = $pdo->prepare("SELECT * FROM medical_record WHERE patientID = ?");
+    $stmt->execute([$_SESSION['user_id']]);
+    $records = $stmt->fetchAll();
+
 
 ?>
 
@@ -39,8 +43,6 @@
 
     <nav>
         <a href="appointmentBooking.php">Book New Appointment</a> |
-        <a href="#">My Appointments</a> |
-        <a href="#">My Medical Records</a>
     </nav>
     <hr>
 
@@ -68,6 +70,32 @@
         <?php else: ?>
             <p>You Have no appointments yet</p>
         <?php endif; ?>
+
+        <!-- Medical Records Section -->
+        <h2>My Medical Records:</h2>
+        <?php if(count($records) > 0): ?>
+            <table border="1">
+                <tr>
+                    <th>Record ID</th>
+                    <th>Doctor</th>
+                    <th>Diagnosis</th>
+                    <th>Treatment</th>
+                    <th>Date</th>
+                </tr>
+                <?php foreach($records as $record): ?>
+                <tr>
+                    <td><?php echo htmlspecialchars($record['recordID']) ?></td>
+                    <td><?php echo htmlspecialchars($record['doctorID']) ?></td>
+                    <td><?php echo htmlspecialchars($record['diagnosis']) ?></td>
+                    <td><?php echo htmlspecialchars($record['treatment']) ?></td>
+                    <td><?php echo htmlspecialchars($record['date']) ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php else: ?>
+            <p>No medical records found.</p>
+        <?php endif; ?>
+
     </main>
 
 </body>

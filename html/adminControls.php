@@ -14,7 +14,7 @@
         exit();
     }
 
-    if($_POST['form_type'] == 'add_user') {
+    if(isset($_POST['form_type']) && $_POST['form_type'] == 'add_user') {
     try {
         $role = $_POST['roleSelect'];
         $name = $_POST['name'];
@@ -48,7 +48,7 @@
         $error = "Failed to add user. Email may already exist.";
     }
 
-    } else if ($_POST['form_type'] == 'manage_appointment') {
+    } else if(isset($_POST['form_type']) && $_POST['form_type'] == 'manage_appointment') {
         try {
             $appointmentID = $_POST['appointmentID'];
             $status = $_POST['status'];
