@@ -66,28 +66,31 @@ $error = "";
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <script src="../js/validation.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <form method="post" action="" onsubmit="return validateLogin()">
-        <header><h1>Login</h1></header><hr>
+    <div class="login-container">
+        <form method="post" action="" onsubmit="return validateLogin()">
+            <header><h1>Login</h1></header><hr>
 
-        <!-- displaying error login message -->
-        <?php if (isset($error)) echo "<p style='color:red'>$error</p>"; ?>
+            <!-- displaying error login message -->
+            <?php if (isset($error)) echo "<p style='color:red'>$error</p>"; ?>
 
-        <table>
-            <tr>
-                <td><label for="loginEmail">Email:</label></td>
-                <td><input type="email" id="email" name="email" required></td>
-            </tr>
-            <tr>
-                <td><label for="password">Password:</label></td>
-                <td><input type="password" id="password" name="password" required></td>
-            </tr>
-            <tr>
-                <td><button type="submit" id="submitBtn">Submit</button></td>
-            </tr>
-        </table>
+            <table>
+                <tr>
+                    <td><label for="loginEmail">Email:</label></td>
+                    <td><input type="email" id="email" name="email" required></td>
+                </tr>
+                <tr>
+                    <td><label for="password">Password:</label></td>
+                    <td><input type="password" id="password" name="password" required></td>
+                </tr>
+                <tr>
+                    <td><button type="submit" id="submitBtn">Submit</button></td>
+                </tr>
+            </table>
 
-    </form>
+        </form>
+    </div>
 </body>
 </html>
