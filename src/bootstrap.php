@@ -54,3 +54,17 @@ function verify_csrf(): void
         exit('Invalid or missing security token. Go back, refresh the page and try again.');
     }
 }
+
+/** Store a one-time message to show after a redirect (Post/Redirect/Get). */
+function flash(string $type, string $message): void
+{
+    $_SESSION['flash'] = ['type' => $type, 'message' => $message];
+}
+
+/** Read and clear the stored message, if any. */
+function pull_flash(): ?array
+{
+    $flash = $_SESSION['flash'] ?? null;
+    unset($_SESSION['flash']);
+    return $flash;
+}

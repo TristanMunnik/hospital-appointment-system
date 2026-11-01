@@ -27,6 +27,8 @@ $appointments = $pdo->query(
      JOIN doctor d ON d.doctorID = a.doctorID
      ORDER BY a.`date`, a.time"
 )->fetchAll();
+
+$pageTitle = 'Admin Dashboard';
 ?>
 
 <!DOCTYPE html>
@@ -39,17 +41,11 @@ $appointments = $pdo->query(
 </head>
 <body>
 
-    <header class="site-header">
-        <h1>Admin Dashboard</h1>
-        <p>Welcome, <?= e($_SESSION['user_name']) ?></p>
-        <a href="<?= BASE_URL ?>/logout.php">Logout</a>
-    </header>
-    <nav class="site-nav">
-        <a href="controls.php">Admin Controls</a>
-    </nav>
+    <?php require __DIR__ . '/../../src/partials/admin_header.php'; ?>
+
     <main>
-        <h2>Admin Panel</h2>
-        <p>Welcome to the admin panel. Use the navigation above to manage the system.</p>
+        <h2>All Appointments</h2>
+        <p>Use the navigation above to manage users and appointments.</p>
 
         <?php if ($success != ""): ?><p class="message success" role="status"><?= e($success) ?></p><?php endif; ?>
         <?php if ($error != ""): ?><p class="message error" role="alert"><?= e($error) ?></p><?php endif; ?>

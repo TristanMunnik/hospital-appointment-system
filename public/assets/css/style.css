@@ -102,6 +102,17 @@ a:hover {
     background: var(--primary-soft);
 }
 
+.site-nav a[aria-current="page"] {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+/* A form that sits below other content on the page */
+.stacked-form {
+    margin-top: 24px;
+}
+
 /* ---------- Content card ---------- */
 main {
     background: var(--surface);
@@ -175,6 +186,15 @@ main > p {
     font-size: 0.8rem;
     font-weight: 600;
     text-transform: capitalize;
+}
+
+.badge-admin   { background: #ede9fe; color: #5b21b6; }
+.badge-doctor  { background: #ccfbf1; color: #115e59; }
+.badge-patient { background: #e0f2fe; color: #075985; }
+
+.muted {
+    color: var(--muted);
+    font-size: 0.85rem;
 }
 
 .badge-requested { background: #fef3c7; color: #92400e; }
@@ -306,6 +326,33 @@ table form {
     box-shadow: none;
 }
 
+/* Status dropdown + Save button on one line inside a table row */
+.inline-form {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.table-wrap select {
+    width: auto;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+}
+
+.btn-small {
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
 .btn-danger {
     background: var(--danger);
     padding: 6px 14px;
@@ -399,4 +446,9 @@ table form {
         padding-top: 0;
         margin-bottom: 4px;
     }
+}
+
+/* Make sure the hidden attribute wins over display rules above */
+[hidden] {
+    display: none !important;
 }
