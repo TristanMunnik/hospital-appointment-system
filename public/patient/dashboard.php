@@ -22,26 +22,12 @@ $stmt = $pdo->prepare(
 );
 $stmt->execute([$_SESSION['user_id']]);
 $records = $stmt->fetchAll();
+
+$pageTitle = 'Patient Dashboard';
+require __DIR__ . '/../../src/partials/head.php';
+require __DIR__ . '/../../src/partials/dashboard_header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Dashboard</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
-
-    <header class="site-header">
-        <h1>Patient Dashboard</h1>
-        <p>Welcome, <?= e($_SESSION['user_name']) ?></p>
-        <a href="<?= BASE_URL ?>/logout.php">Logout</a>
-    </header>
-    <nav class="site-nav">
-        <a href="book-appointment.php">Book New Appointment</a>
-    </nav>
     <main>
         <h2>Your Appointments:</h2>
         <?php if (count($appointments) > 0): ?>

@@ -2,9 +2,6 @@
 require_once __DIR__ . '/../../src/bootstrap.php';
 require_role('doctor');
 
-$success = "";
-$error = "";
-
 // Patients for the dropdown come from the database, not hardcoded options
 $patients = $pdo->query("SELECT patientID, full_name FROM patients ORDER BY full_name")->fetchAll();
 
@@ -22,28 +19,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             trim($_POST['treatment'] ?? ''),
             $_POST['date'] ?? '',
         ]);
-        $success = "Medical record added successfully";
+        flash('success', 'Medical record added successfully');
     } catch (PDOException $e) {
         error_log('Medical record insert failed: ' . $e->getMessage());
-        $error = "Failed to add medical record. Please try again.";
+        flash('error', 'Failed to add medical record. Please try again.');
     }
-}
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Records</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
+    redirect('/doctor/medical-records.php');
+}
+
+$pageTitle = 'Medical Records';
+require __DIR__ . '/../../src/partials/head.php';
+?>
     <form action="" method="post">
         <header><h1>Add Medical Record</h1></header>
 
-        <?php if ($success != ""): ?><p class="message success" role="status"><?= e($success) ?></p><?php endif; ?>
-        <?php if ($error != ""): ?><p class="message error" role="alert"><?= e($error) ?></p><?php endif; ?>
+        <?php render_flash(); ?>
 
         <table>
             <tr>

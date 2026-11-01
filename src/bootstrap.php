@@ -4,6 +4,14 @@ require_once __DIR__ . '/config.php';
 
 session_start();
 
+// Each role lives in its own table and has its own landing page.
+// Table and column names are only ever taken from this list, never from user input.
+const ROLES = [
+    'patient' => ['table' => 'patients', 'idColumn' => 'patientID', 'home' => '/patient/dashboard.php'],
+    'doctor'  => ['table' => 'doctor',   'idColumn' => 'doctorID',  'home' => '/doctor/dashboard.php'],
+    'admin'   => ['table' => 'admin',    'idColumn' => 'adminID',   'home' => '/admin/dashboard.php'],
+];
+
 // URL path to the public/ folder, so links work whether the site is served
 // from the domain root (php -S) or a sub-folder (Laragon/XAMPP).
 $publicDir = str_replace('\\', '/', (string) realpath(__DIR__ . '/../public'));
@@ -61,10 +69,14 @@ function flash(string $type, string $message): void
     $_SESSION['flash'] = ['type' => $type, 'message' => $message];
 }
 
-/** Read and clear the stored message, if any. */
-function pull_flash(): ?array
+/** Print the stored message (once) as a styled alert box, if there is one. */
+function render_flash(): void
 {
     $flash = $_SESSION['flash'] ?? null;
     unset($_SESSION['flash']);
-    return $flash;
+
+    if ($flash) {
+        $role = $flash['type'] === 'error' ? 'alert' : 'status';
+        echo '<p class="message ' . e($flash['type']) . '" role="' . $role . '">' . e($flash['message']) . '</p>';
+    }
 }

@@ -55,8 +55,8 @@ public/            Web root (the only folder the server should expose)
   admin/           dashboard.php, users.php, appointments.php
   assets/          css/ and js/
 src/               Shared code, not web-accessible
-  bootstrap.php    Session, helpers, CSRF, flash messages, role checks
-  partials/        Shared page fragments (admin header and nav)
+  bootstrap.php    Session, role map, helpers, CSRF, flash messages, role checks
+  partials/        Shared page fragments (document head, dashboard header and nav)
   config.example.php
 database/
   schema.sql       Tables for the app

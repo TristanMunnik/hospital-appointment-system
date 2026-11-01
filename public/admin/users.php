@@ -2,13 +2,6 @@
 require_once __DIR__ . '/../../src/bootstrap.php';
 require_role('admin');
 
-// Each role lives in its own table. Only these whitelisted names ever reach a query.
-$roleTables = [
-    'patient' => ['table' => 'patients', 'idColumn' => 'patientID'],
-    'doctor'  => ['table' => 'doctor',   'idColumn' => 'doctorID'],
-    'admin'   => ['table' => 'admin',    'idColumn' => 'adminID'],
-];
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     verify_csrf();
     $action = $_POST['action'] ?? '';
@@ -27,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         );
         $stmt->execute([$email, $email, $email]);
 
-        if (!isset($roleTables[$role])) {
+        if (!isset(ROLES[$role])) {
             flash('error', 'Please choose a role.');
         } elseif ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             flash('error', 'Please enter a name and a valid email.');
@@ -69,14 +62,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $role = $_POST['role'] ?? '';
         $id = $_POST['id'] ?? '';
 
-        if (!isset($roleTables[$role])) {
+        if (!isset(ROLES[$role])) {
             flash('error', 'Unknown user type.');
         } elseif ($role == 'admin' && $id == $_SESSION['user_id']) {
             // Stops the system ending up with no way to log in as an admin
             flash('error', 'You cannot remove your own admin account.');
         } else {
             try {
-                $info = $roleTables[$role];
+                $info = ROLES[$role];
                 $stmt = $pdo->prepare("DELETE FROM {$info['table']} WHERE {$info['idColumn']} = ?");
                 $stmt->execute([$id]);
                 flash(
@@ -94,8 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     redirect('/admin/users.php');
 }
 
-$flash = pull_flash();
-
 $users = $pdo->query(
     "SELECT 'patient' AS role, patientID AS id, full_name, email FROM patients
      UNION ALL SELECT 'doctor', doctorID, full_name, email FROM doctor
@@ -104,24 +95,12 @@ $users = $pdo->query(
 )->fetchAll();
 
 $pageTitle = 'Manage Users';
+$scripts = ['admin-users.js'];
+require __DIR__ . '/../../src/partials/head.php';
+require __DIR__ . '/../../src/partials/dashboard_header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
-    <script src="<?= BASE_URL ?>/assets/js/admin-users.js" defer></script>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
-
-    <?php require __DIR__ . '/../../src/partials/admin_header.php'; ?>
-
-    <?php if ($flash): ?>
-        <p class="message <?= e($flash['type']) ?>" role="<?= $flash['type'] == 'error' ? 'alert' : 'status' ?>"><?= e($flash['message']) ?></p>
-    <?php endif; ?>
+    <?php render_flash(); ?>
 
     <main>
         <h2>All Users (<?= count($users) ?>)</h2>

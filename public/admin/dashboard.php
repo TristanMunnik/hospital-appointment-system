@@ -2,9 +2,6 @@
 require_once __DIR__ . '/../../src/bootstrap.php';
 require_role('admin');
 
-$success = "";
-$error = "";
-
 // Deleting changes data, so it must be a POST with a CSRF token (a GET link can be triggered by any other site)
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['appointmentID'])) {
     verify_csrf();
@@ -12,11 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['appointmentID'])) {
     try {
         $stmt = $pdo->prepare("DELETE FROM appointment WHERE appointmentID = ?");
         $stmt->execute([$_POST['appointmentID']]);
-        $success = "Appointment deleted successfully";
+        flash('success', 'Appointment deleted successfully');
     } catch (PDOException $e) {
         error_log('Appointment delete failed: ' . $e->getMessage());
-        $error = "Failed to delete appointment.";
+        flash('error', 'Failed to delete appointment.');
     }
+
+    redirect('/admin/dashboard.php');
 }
 
 $appointments = $pdo->query(
@@ -29,26 +28,15 @@ $appointments = $pdo->query(
 )->fetchAll();
 
 $pageTitle = 'Admin Dashboard';
+require __DIR__ . '/../../src/partials/head.php';
+require __DIR__ . '/../../src/partials/dashboard_header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
-
-    <?php require __DIR__ . '/../../src/partials/admin_header.php'; ?>
+    <?php render_flash(); ?>
 
     <main>
         <h2>All Appointments</h2>
         <p>Use the navigation above to manage users and appointments.</p>
-
-        <?php if ($success != ""): ?><p class="message success" role="status"><?= e($success) ?></p><?php endif; ?>
-        <?php if ($error != ""): ?><p class="message error" role="alert"><?= e($error) ?></p><?php endif; ?>
 
         <?php if (count($appointments) > 0): ?>
             <div class="table-wrap">

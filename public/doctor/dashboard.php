@@ -33,11 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // Post/Redirect/Get: a page refresh won't resubmit the form
     redirect('/doctor/dashboard.php');
 }
-
-$flash = pull_flash();
 
 $stmt = $pdo->prepare(
     "SELECT a.appointmentID, p.full_name AS patient_name, a.`date`, a.time, a.status
@@ -48,29 +45,13 @@ $stmt = $pdo->prepare(
 );
 $stmt->execute([$_SESSION['user_id']]);
 $appointments = $stmt->fetchAll();
+
+$pageTitle = 'Doctor Dashboard';
+require __DIR__ . '/../../src/partials/head.php';
+require __DIR__ . '/../../src/partials/dashboard_header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
-
-    <header class="site-header">
-        <h1>Doctor Dashboard</h1>
-        <p>Welcome, <?= e($_SESSION['user_name']) ?></p>
-        <a href="<?= BASE_URL ?>/logout.php">Logout</a>
-    </header>
-    <nav class="site-nav">
-        <a href="medical-records.php">Add Medical Record</a>
-    </nav>
-    <?php if ($flash): ?>
-        <p class="message <?= e($flash['type']) ?>" role="<?= $flash['type'] == 'error' ? 'alert' : 'status' ?>"><?= e($flash['message']) ?></p>
-    <?php endif; ?>
+    <?php render_flash(); ?>
 
     <main>
         <h2>Your Appointments</h2>

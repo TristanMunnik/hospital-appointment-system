@@ -1,22 +1,14 @@
 <?php
 require_once __DIR__ . '/../src/bootstrap.php';
 
-$error = "";
-
-// Each role lives in its own table; check them in turn.
-$roleTables = [
-    'patient' => ['table' => 'patients', 'idColumn' => 'patientID', 'home' => '/patient/dashboard.php'],
-    'doctor'  => ['table' => 'doctor',   'idColumn' => 'doctorID',  'home' => '/doctor/dashboard.php'],
-    'admin'   => ['table' => 'admin',    'idColumn' => 'adminID',   'home' => '/admin/dashboard.php'],
-];
-
 if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     verify_csrf();
 
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    foreach ($roleTables as $role => $info) {
+    // Each role has its own table; check them in turn.
+    foreach (ROLES as $role => $info) {
         $stmt = $pdo->prepare("SELECT * FROM {$info['table']} WHERE email = ?");
         $stmt->execute([$email]);
         $user = $stmt->fetch();
@@ -32,20 +24,14 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
     }
 
     // Same message for "no such user" and "wrong password" so attackers can't discover which emails exist
-    $error = "Incorrect email or password";
+    flash('error', 'Incorrect email or password');
+    redirect('/login.php');
 }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <script src="<?= BASE_URL ?>/assets/js/validation.js" defer></script>
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
-</head>
-<body>
+$pageTitle = 'Login';
+$scripts = ['validation.js'];
+require __DIR__ . '/../src/partials/head.php';
+?>
     <div class="login-container">
         <form method="post" action="" onsubmit="return validateLogin()">
             <header>
@@ -53,9 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST') {
                 <p class="subtitle">Sign in to your account</p>
             </header>
 
-            <?php if ($error != ""): ?>
-                <p class="message error" role="alert"><?= e($error) ?></p>
-            <?php endif; ?>
+            <?php render_flash(); ?>
 
             <table>
                 <tr>
