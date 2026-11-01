@@ -1,5 +1,5 @@
-# Database connection config
-php/config.php
+# Database connection config (copy src/config.example.php to src/config.php)
+src/config.php
 
 # System files
 .DS_Store
@@ -7,3 +7,6 @@ Thumbs.db
 
 # VS Code settings
 .vscode/
+
+# Node
+node_modules/
