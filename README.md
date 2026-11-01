@@ -7,8 +7,30 @@ A role-based hospital management web app built with PHP and MySQL. Patients book
 | Role    | What they can do |
 |---------|------------------|
 | Patient | Book appointments with a doctor, view their appointments and medical records |
-| Doctor  | View their appointments, add medical records for patients |
-| Admin   | Add users (patients, doctors, admins), update appointment status, delete appointments |
+| Doctor  | View their appointments, confirm / complete / cancel them, add medical records for patients |
+| Admin   | Add and remove patients, doctors and other admins; update appointment status; delete appointments |
+
+## Screenshots
+
+### Login
+![Login page](docs/Login.png)
+
+### Patient
+| Dashboard | Book an appointment |
+|-----------|---------------------|
+| ![Patient dashboard](docs/PatientDashboard.png) | ![Book an appointment](docs/BookAppointment.png) |
+
+### Doctor
+| Dashboard (update appointment status) | Add a medical record |
+|---------------------------------------|----------------------|
+| ![Doctor dashboard](docs/DoctorDashboard.png) | ![Add a medical record](docs/AddRecord.png) |
+
+### Admin
+| Dashboard | Manage users |
+|-----------|--------------|
+| ![Admin dashboard](docs/AdminDashboard.png) | ![Manage users](docs/ManageUsers.png) |
+
+![Manage appointments](docs/ManageAppointments.png)
 
 ## Tech and security decisions
 
@@ -18,6 +40,8 @@ A role-based hospital management web app built with PHP and MySQL. Patients book
 - **CSRF tokens** on every form that changes data
 - **Output escaping** (`e()` helper) on all user-supplied data to prevent XSS
 - **Session ID regenerated on login** to prevent session fixation
+- **Ownership checks on the server**: a doctor can only change their own appointments, and an admin cannot remove their own account
+- **Post/Redirect/Get** after form submissions so refreshing the page never resubmits a form
 - Only `public/` is meant to be web-accessible; config and shared code live in `src/`
 
 ## Project structure
@@ -28,13 +52,15 @@ public/            Web root (the only folder the server should expose)
   login.php, logout.php
   patient/         dashboard.php, book-appointment.php
   doctor/          dashboard.php, medical-records.php
-  admin/           dashboard.php, controls.php
+  admin/           dashboard.php, users.php, appointments.php
   assets/          css/ and js/
 src/               Shared code, not web-accessible
-  bootstrap.php    Session, helpers, CSRF, role checks
+  bootstrap.php    Session, helpers, CSRF, flash messages, role checks
+  partials/        Shared page fragments (admin header and nav)
   config.example.php
 database/
   schema.sql       Tables for the app
+docs/              Screenshots used in this README
 ```
 
 ## Setup
@@ -49,6 +75,6 @@ Requires PHP 8.1+, MySQL 8+ and Node (only used to run the npm scripts; there ar
 
 ## Roadmap
 
-- [ ] Screenshots
+- [x] Screenshots
 - [ ] Automated tests
 - [ ] Live demo
