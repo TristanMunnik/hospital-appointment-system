@@ -1,0 +1,10 @@
+{
+  "name": "hospital-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Role-based hospital management app built with PHP and MySQL",
+  "scripts": {
+    "dev": "php -S localhost:8000 -t public",
+    "db:setup": "mysql -u root -p < database/schema.sql"
+  }
+}
