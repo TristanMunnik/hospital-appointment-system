@@ -1,129 +1,227 @@
-* {
+/* ---------- Theme ---------- */
+:root {
+    --primary: #0f766e;
+    --primary-dark: #115e59;
+    --primary-soft: #ccfbf1;
+    --ink: #0f172a;
+    --muted: #64748b;
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --danger: #dc2626;
+    --danger-dark: #b91c1c;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+*,
+*::before,
+*::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    padding: 20px;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: var(--bg);
+    color: var(--ink);
+    padding: 24px 16px 48px;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+a {
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* ---------- Dashboard header and navigation ---------- */
+.site-header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    padding: 20px 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 8px 24px;
 }
 
-header h1 {
-    font-size: 22px;
+.site-header h1 {
+    font-size: 1.4rem;
+    margin-right: auto;
 }
 
-header p {
-    font-size: 14px;
-    color: #bdc3c7;
+.site-header p {
+    font-size: 0.9rem;
+    color: #d1fae5;
 }
 
-header a {
-    color: #e74c3c;
+.site-header a {
+    color: #fff;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 999px;
 }
 
-header a:hover {
-    text-decoration: underline;
+.site-header a:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
 }
 
-nav {
-    background-color: #34495e;
-    padding: 10px 20px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
 }
 
-nav a {
-    color: white;
+.site-nav a {
+    background: var(--surface);
+    color: var(--primary-dark);
     text-decoration: none;
-    margin-right: 15px;
-    font-size: 14px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
 }
 
-nav a:hover {
-    color: #3498db;
+.site-nav a:hover {
+    background: var(--primary-soft);
 }
 
+/* ---------- Content card ---------- */
 main {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--surface);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 main h2 {
-    color: #2c3e50;
-    margin-bottom: 15px;
-    font-size: 18px;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 8px;
+    font-size: 1.1rem;
+    color: var(--primary-dark);
+    margin: 24px 0 12px;
 }
 
-table {
+main h2:first-child {
+    margin-top: 0;
+}
+
+main > p {
+    color: var(--muted);
+}
+
+.empty {
+    color: var(--muted);
+    background: var(--bg);
+    padding: 16px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* ---------- Data tables ---------- */
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-top: 12px;
+}
+
+.table-wrap table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 10px;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
-table th {
-    background-color: #2c3e50;
-    color: white;
-    padding: 10px;
+.table-wrap th {
+    background: var(--bg);
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
     text-align: left;
+    padding: 12px 14px;
+    white-space: nowrap;
 }
 
-table td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.table-wrap td {
+    padding: 12px 14px;
+    border-top: 1px solid var(--border);
+    vertical-align: middle;
 }
 
-table tr:hover {
-    background-color: #f5f5f5;
+.table-wrap tr:hover td {
+    background: #f8fafc;
 }
 
+/* ---------- Status badges ---------- */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.badge-requested { background: #fef3c7; color: #92400e; }
+.badge-confirmed { background: #dbeafe; color: #1e40af; }
+.badge-completed { background: #dcfce7; color: #166534; }
+.badge-cancelled { background: #fee2e2; color: #991b1b; }
+
+/* ---------- Forms ---------- */
 form {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--surface);
+    padding: 28px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    max-width: 640px;
+    margin: 0 auto 24px;
+}
+
+form > header {
     margin-bottom: 20px;
 }
 
-form h1, form h2 {
-    color: #ffffff;
-    font-size: 20px;
+form > header h1,
+form > header h2 {
+    font-size: 1.4rem;
+    color: var(--primary-dark);
 }
 
 form table {
     width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 14px;
 }
 
 form table td {
-    padding: 8px;
-    border: none;
+    vertical-align: top;
 }
 
 form table td:first-child {
     width: 150px;
-    font-weight: bold;
-    color: #555;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #334155;
+}
+
+/* Line labels up with their inputs (the button cell needs no offset) */
+form table td:has(> label) {
+    padding-top: 9px;
 }
 
 input[type="text"],
@@ -135,77 +233,170 @@ input[type="tel"],
 select,
 textarea {
     width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #333;
+    padding: 9px 12px;
+    font: inherit;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
 }
 
-input:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    border-color: #3498db;
-}
-
-button {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-a[href*="appointmentID"] {
-    color: #e74c3c;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-a[href*="appointmentID"]:hover {
-    text-decoration: underline;
-}
-
-p[style*="green"] {
-    background-color: #d4edda;
-    color: #155724;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-p[style*="red"] {
-    background-color: #f8d7da;
-    color: #721c24;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid rgba(15, 118, 110, 0.35);
+    outline-offset: 1px;
+    border-color: var(--primary);
 }
 
 small {
-    color: #888;
-    font-size: 12px;
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.8rem;
 }
 
-hr {
-    border: none;
-    border-top: 1px solid #ddd;
-    margin: 15px 0;
-}
-
-.login-container {
-    max-width: 400px;
-    margin: 50px auto;
-    background-color: white;
-    padding: 30px;
+button {
+    padding: 10px 20px;
+    font: inherit;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #fff;
+    background: var(--primary);
+    border: 1px solid transparent;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+button:hover {
+    background: var(--primary-dark);
+}
+
+/* Link that looks like a button (e.g. "Back to dashboard") */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.15s;
+}
+
+.btn-secondary {
+    color: var(--primary-dark);
+    background: var(--surface);
+    border: 1px solid #cbd5e1;
+}
+
+.btn-secondary:hover {
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border-color: var(--primary);
+}
+
+/* Delete button inside table rows */
+table form {
+    margin: 0;
+    padding: 0;
+    max-width: none;
+    background: none;
+    box-shadow: none;
+}
+
+.btn-danger {
+    background: var(--danger);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+}
+
+.btn-danger:hover {
+    background: var(--danger-dark);
+}
+
+/* ---------- Feedback messages ---------- */
+.message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+}
+
+.message.success {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.message.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+/* ---------- Login ---------- */
+.login-container {
+    max-width: 420px;
+    margin: 8vh auto 0;
+}
+
+.login-container form {
+    margin: 0;
+}
+
+.login-container form > header {
+    text-align: center;
+}
+
+.login-container form table td:first-child {
+    width: 90px;
+}
+
+.subtitle {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+.login-container button {
+    width: 100%;
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 600px) {
+    body {
+        padding: 12px 12px 32px;
+    }
+
+    main,
+    form {
+        padding: 18px;
+    }
+
+    /* Stack label above field instead of side by side */
+    form table,
+    form table tbody,
+    form table tr,
+    form table td {
+        display: block;
+        width: 100%;
+    }
+
+    form table {
+        border-spacing: 0;
+    }
+
+    form table tr {
+        margin-bottom: 14px;
+    }
+
+    form table td:first-child,
+    .login-container form table td:first-child {
+        width: 100%;
+        padding-top: 0;
+        margin-bottom: 4px;
+    }
 }
